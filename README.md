@@ -46,7 +46,34 @@ pip install -r requirements.txt
 
 
 
-<!-- ## Dataset -->
+## Dataset
+
+For the worst-group bounding experiments, we use the **Waterbirds** dataset, which consists of 2 classes{waterbirds,landbirds} and 4 groups {waterbirds-on-water, waterbirds-on-land,landbirds-on-land, landbirds-on-water}. We shuffled the original train/validation/test data and split them into 6:2:2 for the equal group distribution. You can use this datasets with 3 steps.
+
+**1. Downloading the original waterbirds dataset**
+
+Before running the experiments, the dataset must be downloaded and placed
+in the `data` folder. You can do this by running the following commands:
+
+```bash
+wget -P data https://nlp.stanford.edu/data/dro/waterbird_complete95_forest2water2.tar.gz
+tar -xf data/waterbird_complete95_forest2water2.tar.gz -C group_imbalance/data
+```
+
+**2. Shuffle and split the original dataset**
+
+We provide the way to shuffle and split procedures. You can find them in ```data/cub_dataset.py``` and get the csv file ```data/shuffle_metadata_seedX.csv```  
+
+**3. Select and set the dataset**
+
+After getting the ```data/shuffle_metadata_seedX.csv```, you have to set the them in ```data/cub_dataset.py``` as below:
+
+```bash
+self.metadata_df = pd.read_csv(
+    os.path.join(self.data_dir, 'shuffle_metadata_seedX.csv'))
+```
+
+
 
 
 ## Training & Test
@@ -60,4 +87,14 @@ We provide several examples:
 
 ```bash
 python3 train.py --arch 'mlp' --dataset_type 'moon' --eps 0.0005 --gamma 0.1 --loss_type 'CE' --lr 0.01 --max_epoch 10000 --min_size 50 --num_classes 2 --root_log 'log' --root_model 'checkpoint' --seed 1 --store_name 'moon_1' --train_rule 'None'
+```
+
+### shuffled waterbirds dataset
+---
+
+
+- Ours (train & test)
+
+```bash
+bash run.sh ## change the batch_size=512 to batch_size=128 according to your PC memory capacity
 ```
