@@ -77,14 +77,14 @@ self.metadata_df = pd.read_csv(
 
 We provide several examples:
 
-### Artificial dataset
+<!-- ### Artificial dataset
 ---
 
 - Ours (train)
 
-```bash
-python3 train.py --arch 'mlp' --dataset_type 'moon' --eps 0.0005 --gamma 0.1 --loss_type 'CE' --lr 0.01 --max_epoch 10000 --min_size 50 --num_classes 2 --root_log 'log' --root_model 'checkpoint' --seed 1 --store_name 'moon_1' --train_rule 'None'
-```
+```bash -->
+
+<!-- ``` -->
 
 ### shuffled waterbirds dataset (train & test)
 ---
