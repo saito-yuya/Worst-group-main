@@ -73,9 +73,6 @@ self.metadata_df = pd.read_csv(
     os.path.join(self.data_dir, 'shuffle_metadata_seedX.csv'))
 ```
 
-
-
-
 ## Training & Test
 
 We provide several examples:
@@ -89,12 +86,36 @@ We provide several examples:
 python3 train.py --arch 'mlp' --dataset_type 'moon' --eps 0.0005 --gamma 0.1 --loss_type 'CE' --lr 0.01 --max_epoch 10000 --min_size 50 --num_classes 2 --root_log 'log' --root_model 'checkpoint' --seed 1 --store_name 'moon_1' --train_rule 'None'
 ```
 
-### shuffled waterbirds dataset
+### shuffled waterbirds dataset (train & test)
 ---
-
-
-- Ours (train & test)
+- ERM
 
 ```bash
-bash run.sh ## change the batch_size=512 to batch_size=128 according to your PC memory capacity
+python main.py -s confounder -d CUB -t waterbird_complete95 -c forest2water2 --model resnet50 --weight_decay 0.1 --lr 0.0001 --batch_size 512 --n_epochs 300 --save_step 1000 --save_best --save_last --gpu_num 0 --log_dir 'result/water_birds/ERM_lr_0.0001_wd_0.1/'
+```
+
+- Naive
+
+```bash
+### ERM + weight_decay=0.0
+python main.py -s confounder -d CUB -t waterbird_complete95 -c forest2water2 --dont_set_seed 1 --model resnet50 --weight_decay 0.0 --lr 0.0001 --batch_size 512 --n_epochs 300 --save_step 1000 --save_best --save_last --gpu_num 0 --log_dir 'result/water_birds/Naive_lr_0.0001_wd_0/'  
+```
+
+- DRO
+
+```bash
+python main.py -s confounder -d CUB -t waterbird_complete95 -c forest2water2 --model resnet50 --weight_decay 0.1 --lr 0.0001 --batch_size 512 --n_epochs 300 --save_step 1000 --save_best --save_last --reweight_groups --robust --alpha 0.01 --gamma 0.1 --generalization_adjustment 0 --gpu_num 0 --log_dir 'result/water_birds/sagawaDRO_lr_0.0001_wd_0.1/'
+```
+
+- VS loss
+
+```bash
+python main.py -s confounder -d CUB -t waterbird_complete95 -c forest2water2 --lr 0.001 --batch_size 512 --weight_decay 0.0001 --model resnet50 --n_epochs 300 --gamma 0.1 --generalization_adjustment 0 --loss vs --vs_alpha 0.3 --dont_set_seed 1 --robust --gpu_num 0 --log_dir 'result/water_birds/VS+DRO_lr_0.0001_wd_0.0001/'
+```
+
+- Ours
+
+```bash
+### theta = {0.1,...,0.9} 
+bash run.sh ### change the batch_size=512 to batch_size=128 according to your PC memory capacity
 ```
