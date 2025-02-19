@@ -86,7 +86,7 @@ We provide several examples:
 
 <!-- ``` -->
 
-### shuffled waterbirds dataset (train & test)
+### shuffled waterbirds dataset
 ---
 - ERM
 
